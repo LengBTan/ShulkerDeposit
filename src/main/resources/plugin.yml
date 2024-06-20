@@ -1,0 +1,4 @@
+name: ShulkerDeposit
+version: '${project.version}'
+main: org.shulkerdeposit.shulkerdeposit.ShulkerDeposit
+api-version: '1.21'
