@@ -8,6 +8,7 @@ public final class ShulkerDeposit extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         getLogger().info("ShulkerDeposit on");
+        getServer().getPluginManager().registerEvents(new InventoryListener(), this);
     }
 
     @Override
