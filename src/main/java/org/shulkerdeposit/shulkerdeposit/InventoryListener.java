@@ -14,20 +14,21 @@ public class InventoryListener implements Listener {
     @EventHandler
     public void onClickItem(InventoryClickEvent e){
         if(!e.getWhoClicked().getItemOnCursor().getType().equals(Material.AIR)
-                && e.getClick().isRightClick()){
-            if(e.getWhoClicked().getInventory().contains(Material.SHULKER_BOX)){
-                ItemStack item = e.getCurrentItem();
-                    BlockStateMeta meta = (BlockStateMeta)item.getItemMeta();
-                    if(meta.getBlockState() instanceof ShulkerBox){
-                        ShulkerBox shulker = (ShulkerBox)meta.getBlockState();
+        && e.getClick().isRightClick()
+        && e.getWhoClicked().getInventory().contains(Material.SHULKER_BOX)){
+            ItemStack item = e.getCurrentItem();
+            BlockStateMeta meta = (BlockStateMeta)item.getItemMeta();
+            if(meta.getBlockState() instanceof ShulkerBox){
+                ShulkerBox shulker = (ShulkerBox)meta.getBlockState();
 
-                        shulker.getInventory().addItem(new ItemStack(e.getWhoClicked().getItemOnCursor()));
+                shulker.getInventory().addItem(new ItemStack(e.getWhoClicked().getItemOnCursor()));
 
-                        meta.setBlockState(shulker);
-                        item.setItemMeta(meta);
+                meta.setBlockState(shulker);
+                item.setItemMeta(meta);
 
-                        e.getWhoClicked().setItemOnCursor(null);
-                    }
+                e.getWhoClicked().setItemOnCursor(null);
+
+                e.setCancelled(true);
             }
         }
     }
