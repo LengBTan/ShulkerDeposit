@@ -13,12 +13,13 @@ import org.bukkit.inventory.meta.BlockStateMeta;
 public class InventoryListener implements Listener {
     @EventHandler
     public void onClickItem(InventoryClickEvent e){
-        if(!e.getWhoClicked().getItemOnCursor().getType().equals(Material.AIR)
-        && e.getClick().isRightClick()
-        && e.getWhoClicked().getInventory().contains(Material.SHULKER_BOX)){
-            ItemStack item = e.getCurrentItem();
+        ItemStack item = e.getCurrentItem();
+
+        if(item.getItemMeta() instanceof BlockStateMeta){
             BlockStateMeta meta = (BlockStateMeta)item.getItemMeta();
-            if(meta.getBlockState() instanceof ShulkerBox){
+            if(!e.getWhoClicked().getItemOnCursor().getType().equals(Material.AIR)
+                    && e.getClick().isRightClick()
+                    && meta.getBlockState() instanceof ShulkerBox){
                 ShulkerBox shulker = (ShulkerBox)meta.getBlockState();
 
                 shulker.getInventory().addItem(new ItemStack(e.getWhoClicked().getItemOnCursor()));
@@ -31,5 +32,8 @@ public class InventoryListener implements Listener {
                 e.setCancelled(true);
             }
         }
+
+
+
     }
 }
