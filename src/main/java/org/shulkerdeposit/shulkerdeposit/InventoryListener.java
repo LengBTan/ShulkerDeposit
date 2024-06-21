@@ -13,29 +13,36 @@ import org.bukkit.inventory.meta.BlockStateMeta;
 public class InventoryListener implements Listener {
     @EventHandler
     public void onClickItem(InventoryClickEvent e){
-        ItemStack item = e.getCurrentItem();
+        ItemStack shulkerItem = e.getCurrentItem();
+        ItemStack heldItem = e.getWhoClicked().getItemOnCursor();
 
 
-        if(item != null && item.getType() != Material.AIR && item.getItemMeta() instanceof BlockStateMeta){//check if valid
-            BlockStateMeta meta = (BlockStateMeta)item.getItemMeta();
-            if(!e.getWhoClicked().getItemOnCursor().getType().equals(Material.AIR)
+        //don't do anything if the cursor held item is a shulker box
+        if(heldItem.getItemMeta() instanceof BlockStateMeta){
+            BlockStateMeta heldMeta = (BlockStateMeta) heldItem.getItemMeta();
+            if(heldMeta.getBlockState() instanceof ShulkerBox){
+                return;
+            }
+        }
+
+        if(shulkerItem != null && shulkerItem.getType() != Material.AIR && shulkerItem.getItemMeta() instanceof BlockStateMeta){//check if valid
+            BlockStateMeta shulkerMeta = (BlockStateMeta) shulkerItem.getItemMeta();
+
+            if(!heldItem.getType().equals(Material.AIR)
                     && e.getClick().isRightClick()
-                    && meta.getBlockState() instanceof ShulkerBox){
-                ShulkerBox shulker = (ShulkerBox)meta.getBlockState();
+                    && shulkerMeta.getBlockState() instanceof ShulkerBox){
 
-                shulker.getInventory().addItem(new ItemStack(e.getWhoClicked().getItemOnCursor()));
+                ShulkerBox shulker = (ShulkerBox) shulkerMeta.getBlockState();
 
-                meta.setBlockState(shulker);
-                item.setItemMeta(meta);
+                shulker.getInventory().addItem(new ItemStack(heldItem));
+
+                shulkerMeta.setBlockState(shulker);
+                shulkerItem.setItemMeta(shulkerMeta);
 
                 e.getWhoClicked().setItemOnCursor(null);
 
                 e.setCancelled(true);
             }
         }
-
-
-
-
     }
 }
