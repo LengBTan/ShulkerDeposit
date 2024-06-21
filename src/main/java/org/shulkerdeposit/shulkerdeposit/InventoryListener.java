@@ -15,7 +15,8 @@ public class InventoryListener implements Listener {
     public void onClickItem(InventoryClickEvent e){
         ItemStack item = e.getCurrentItem();
 
-        if(item.getItemMeta() instanceof BlockStateMeta){
+
+        if(item != null && item.getType() != Material.AIR && item.getItemMeta() instanceof BlockStateMeta){//check if valid
             BlockStateMeta meta = (BlockStateMeta)item.getItemMeta();
             if(!e.getWhoClicked().getItemOnCursor().getType().equals(Material.AIR)
                     && e.getClick().isRightClick()
@@ -32,6 +33,7 @@ public class InventoryListener implements Listener {
                 e.setCancelled(true);
             }
         }
+
 
 
 
