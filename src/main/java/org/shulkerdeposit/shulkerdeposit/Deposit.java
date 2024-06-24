@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 
 
-public class InventoryListener implements Listener {
+public class Deposit implements Listener {
     @EventHandler
     public void onClickItem(InventoryClickEvent e){
         ItemStack shulkerItem = e.getCurrentItem();
