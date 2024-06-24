@@ -16,7 +16,6 @@ public class InventoryListener implements Listener {
         ItemStack shulkerItem = e.getCurrentItem();
         ItemStack heldItem = e.getWhoClicked().getItemOnCursor();
 
-
         //don't do anything if the cursor held item is a shulker box
         if(heldItem.getItemMeta() instanceof BlockStateMeta){
             BlockStateMeta heldMeta = (BlockStateMeta) heldItem.getItemMeta();
@@ -34,14 +33,25 @@ public class InventoryListener implements Listener {
 
                 ShulkerBox shulker = (ShulkerBox) shulkerMeta.getBlockState();
 
-                shulker.getInventory().addItem(new ItemStack(heldItem));
+                //check if the item was added at all, maybe check before and after block state to see if it changed?
+                //take a snapshot of the shulker inventory
+                ItemStack oldShulker = new ItemStack(shulkerItem);
 
+                shulker.getInventory().addItem(new ItemStack(heldItem));//attempt to add to the shulker
+
+                //update the shulker metadata
                 shulkerMeta.setBlockState(shulker);
                 shulkerItem.setItemMeta(shulkerMeta);
 
-                e.getWhoClicked().setItemOnCursor(null);
-
-                e.setCancelled(true);
+                if(shulkerItem.isSimilar(oldShulker)){
+                    Bukkit.broadcastMessage("Nothing has changed in the shulkerbox");
+                    e.setCancelled(true);
+                    return;
+                }
+                else{
+                    e.getWhoClicked().setItemOnCursor(null);
+                    e.setCancelled(true);
+                }
             }
         }
     }
