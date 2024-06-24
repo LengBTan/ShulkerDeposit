@@ -1,6 +1,5 @@
 package org.shulkerdeposit.shulkerdeposit;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.event.EventHandler;
