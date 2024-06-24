@@ -44,7 +44,6 @@ public class Deposit implements Listener {
                 shulkerItem.setItemMeta(shulkerMeta);
 
                 if(shulkerItem.isSimilar(oldShulker)){
-                    Bukkit.broadcastMessage("Nothing has changed in the shulkerbox");
                     e.setCancelled(true);
                     return;
                 }
